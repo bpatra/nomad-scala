@@ -7,5 +7,10 @@ object Main extends App {
   val responseFuture: ServerQueryResponse[Seq[JobListStub]] =
     api.jobs.list()
   val results = responseFuture.getValue();
-  println(results)
+
+  val bpatraJobs = results.filter( f => f.getName().startsWith("bpatra-"));
+  
+  bpatraJobs.filter( j => j.getStatus() != "running").foreach(j => println(s" JobName ${j.getName()} - Status ${j.getStatus()}"));
+  
+  println("...completed.");
 }
